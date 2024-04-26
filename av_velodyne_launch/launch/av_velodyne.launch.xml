@@ -1,0 +1,11 @@
+<launch>
+  <node pkg="av_velodyne_launch" exec="curl_engage.py" name="curl_engage" output="both"/>
+
+  <include file="$(find-pkg-share av_velodyne_launch)/launch/velodyne-all-nodes-VLP16-composed.launch.xml">
+    <arg name="side" value="left"/>
+  </include>
+
+  <include file="$(find-pkg-share av_velodyne_launch)/launch/velodyne-all-nodes-VLP16-composed.launch.xml">
+    <arg name="side" value="right"/>
+  </include>
+</launch>
