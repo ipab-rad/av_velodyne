@@ -11,14 +11,9 @@ RUN sed -i "s/$OLD_MIRROR\|$SEC_MIRROR/$NEW_MIRROR/g" /etc/apt/sources.list
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
         apt-get -y --quiet --no-install-recommends install \
-        libpcap0.8-dev \
-        libpcl-dev \
-        ros-humble-angles \
-        ros-humble-diagnostic-updater \
-        # Velodyne Lidar
+        # Velodyne Lidar driver
         ros-humble-velodyne-driver \
         ros-humble-velodyne-pointcloud \
-        ros-humble-velodyne-msgs \
         # Pip for Python3
         python3-pip \
         # Ping required for checking Velodynes
