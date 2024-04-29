@@ -2,8 +2,8 @@
 Changelog for package av_velodyne_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2024-04-29)
+------------------
 * Remove Dockerfile deps only needed for compilation
 * Porting code from ipab-rad/velodyne repository (`#1 <https://github.com/ipab-rad/av_velodyne/issues/1>`_)
   This PR ports the `av_velodyne_launch` ROS 2 package, dockerfile and
