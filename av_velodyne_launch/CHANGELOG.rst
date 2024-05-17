@@ -2,6 +2,12 @@
 Changelog for package av_velodyne_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add cyclone DDS as ROS RMW  + configurate it to support high msg throughput
+* Avoid `dev.sh` override `latest` docker tag for convenience
+* Enable colorised ROS log
+
 1.0.0 (2024-04-29)
 ------------------
 * Remove Dockerfile deps only needed for compilation
