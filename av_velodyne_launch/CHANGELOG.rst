@@ -7,6 +7,7 @@ Forthcoming
 * Add cyclone DDS as ROS RMW  + configurate it to support high msg throughput
 * Avoid `dev.sh` override `latest` docker tag for convenience
 * Enable colorised ROS log
+* Synchronise host time with docker container via volume mount
 
 1.0.0 (2024-04-29)
 ------------------
