@@ -9,9 +9,6 @@ Forthcoming
 * Add ros_time argument to set GPS/PPS time synch
 * Contributors: Alejandro Bordallo
 
-* Add ros_time argument to set GPS/PPS time synch
-* Contributors: Alejandro Bordallo
-
 1.2.0 (2024-06-05)
 ------------------
 * Add bash args to optionally load local cyclone_dds
