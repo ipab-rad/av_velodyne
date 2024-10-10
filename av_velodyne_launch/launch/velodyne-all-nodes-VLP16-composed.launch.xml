@@ -1,5 +1,6 @@
 <launch>
   <arg name="side" default="none" description="left/right"/>
+  <arg name="gps_time" default="true" description="If true use GPS/PPS time synch"/>
 
   <group>
     <push-ros-namespace namespace="/sensor/lidar/$(var side)"/>
@@ -7,6 +8,7 @@
       <composable_node pkg="velodyne_driver" plugin="velodyne_driver::VelodyneDriver" name="velodyne_driver_node" namespace="">
         <param name="use_sim_time" value="false"/>
         <param from="$(find-pkg-share av_velodyne_launch)/config/VLP16-velodyne_driver_$(var side)-params.yaml"/>
+        <param name="gps_time" value="$(var gps_time)"/>
       </composable_node>
 
       <composable_node pkg="velodyne_pointcloud" plugin="velodyne_pointcloud::Transform" name="velodyne_transform_node" namespace="">
