@@ -4,6 +4,11 @@ Changelog for package av_velodyne_launch
 
 Forthcoming
 -----------
+* Setting timestamp_first_packet to match Ouster
+* Update changelog
+* Add ros_time argument to set GPS/PPS time synch
+* Contributors: Alejandro Bordallo
+
 * Add ros_time argument to set GPS/PPS time synch
 * Contributors: Alejandro Bordallo
 
