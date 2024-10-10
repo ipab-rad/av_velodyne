@@ -11,4 +11,4 @@
         model: VLP16
         rpm: 600.0
         port: 2370
-        timestamp_first_packet: false
+        timestamp_first_packet: true
