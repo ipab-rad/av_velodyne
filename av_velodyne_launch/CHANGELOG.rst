@@ -2,8 +2,8 @@
 Changelog for package av_velodyne_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.0 (2024-10-17)
+------------------
 * Setting timestamp_first_packet to match Ouster
 * Update changelog
 * Add ros_time argument to set GPS/PPS time synch
