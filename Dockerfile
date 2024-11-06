@@ -22,6 +22,13 @@ RUN apt-get update \
         ros-"$ROS_DISTRO"-rmw-cyclonedds-cpp \
     && rm -rf /var/lib/apt/lists/*
 
+
+# Temporal hacky way to fix velodyne_pointclod (apt installed) Eigen and PCL cmake exports bug
+# https://github.com/ros-drivers/velodyne/issues/550
+
+RUN sed -i 's/\beigen\b/Eigen3/g' /opt/ros/humble/share/velodyne_pointcloud/cmake/ament_cmake_export_dependencies-extras.cmake && \
+    sed -i 's/\bpcl\b/PCL/g' /opt/ros/humble/share/velodyne_pointcloud/cmake/ament_cmake_export_dependencies-extras.cmake
+
 # Install pycurl to spin up/down velodynes
 RUN pip install --no-cache-dir pycurl==7.45.3
 
