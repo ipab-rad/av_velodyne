@@ -9,6 +9,8 @@ import urllib.request
 from io import BytesIO
 from urllib.parse import urlencode
 
+from multiprocessing.dummy import Pool as ThreadPool
+
 import pycurl
 
 lidar_ips = ['172.31.2.2', '172.31.2.3']
@@ -53,6 +55,30 @@ def set_lidar_RPM(ips, RPM):
         )
         sensor.close()
 
+def set_laser_off(ip):
+    sensor = pycurl.Curl()
+    buffer = BytesIO()
+    sensor_do(
+        sensor, ip_URL(ip) + 'setting', urlencode({'laser':'off'}), buffer
+    )
+    sensor.close()
+
+def set_laser_on(ip):
+    sensor = pycurl.Curl()
+    buffer = BytesIO()
+    sensor_do(
+        sensor, ip_URL(ip) + 'setting', urlencode({'laser':'on'}), buffer
+    )
+    sensor.close()
+
+def set_lidar_on(ip):
+    sensor = pycurl.Curl()
+    buffer = BytesIO()
+    sensor_do(
+        sensor, ip_URL(ip) + 'setting', urlencode({'rpm': RPM_on}), buffer
+    )
+    sensor.close()
+
 
 def check_lidar_RPM(ips):
     """Check and print the current RPM of a list of sensor ips."""
@@ -83,7 +109,15 @@ def on_close():
 
 
 # Set both velodynes to spin up, when at speed laser turns on
-set_lidar_RPM(lidar_ips, RPM_on)
+#set_lidar_RPM(lidar_ips, RPM_on)
+
+# Hack-fix to get velodynes semi-synchronised
+pool = ThreadPool(2)
+results = pool.map(set_lidar_on, lidar_ips)
+
+set_laser_off('172.31.2.2')
+time.sleep(0.073)
+set_laser_on('172.31.2.2')
 
 # Optional: Print velodyne status
 if debug:
