@@ -14,7 +14,7 @@
       <composable_node pkg="velodyne_pointcloud" plugin="velodyne_pointcloud::Transform" name="velodyne_transform_node" namespace="">
         <param name="use_sim_time" value="false"/>
         <remap from="velodyne_points" to="points"/>
-        <param from="$(find-pkg-share velodyne_pointcloud)/config/VLP16-velodyne_transform_node-params.yaml"/>
+        <param from="$(find-pkg-share av_velodyne_launch)/config/VLP16-velodyne_transform_node-params.yaml"/>
         <param name="calibration" value="$(find-pkg-share velodyne_pointcloud)/params/VLP16db.yaml"/>
       </composable_node>
     </node_container>
