@@ -40,6 +40,15 @@ ENV CYCLONEDDS_URI=file://${ROS_WS}/cyclone_dds.xml
 # Enable ROS log colorised output
 ENV RCUTILS_COLORIZED_OUTPUT=1
 
+# Setup Nebula ROS
+RUN git clone https://github.com/tier4/nebula.git /opt/ros_ws/src/nebula \
+    && apt-get update \
+    && vcs import /opt/ros_ws/src/nebula/ < /opt/ros_ws/src/nebula/build_depends.repos \
+    && DEBIAN_FRONTEND=noninteractive \
+    && rosdep install --from-paths /opt/ros_ws/src/nebula --ignore-src -y -r \
+    && . /opt/ros/"$ROS_DISTRO"/setup.sh \
+    && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+
 # -----------------------------------------------------------------------
 
 FROM base AS prebuilt
