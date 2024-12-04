@@ -12,5 +12,4 @@
     <param name="launch_hw" value="true"/>
     <remap from="velodyne_points" to="/sensor/lidar/right/points"/>
   </node>
-
 </launch>

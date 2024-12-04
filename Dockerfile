@@ -1,9 +1,9 @@
 FROM ros:humble-ros-base-jammy AS base
 
 # Switch to much faster mirror for apt processes
-ENV OLD_MIRROR archive.ubuntu.com
-ENV SEC_MIRROR security.ubuntu.com
-ENV NEW_MIRROR mirror.bytemark.co.uk
+ENV OLD_MIRROR=archive.ubuntu.com
+ENV SEC_MIRROR=security.ubuntu.com
+ENV NEW_MIRROR=mirror.bytemark.co.uk
 
 RUN sed -i "s/$OLD_MIRROR\|$SEC_MIRROR/$NEW_MIRROR/g" /etc/apt/sources.list
 
@@ -26,7 +26,7 @@ RUN apt-get update \
 RUN pip install --no-cache-dir pycurl==7.45.3
 
 # Setup ROS workspace folder
-ENV ROS_WS /opt/ros_ws
+ENV ROS_WS=/opt/ros_ws
 WORKDIR $ROS_WS
 
 # Set cyclone DDS ROS RMW
@@ -41,20 +41,23 @@ ENV CYCLONEDDS_URI=file://${ROS_WS}/cyclone_dds.xml
 ENV RCUTILS_COLORIZED_OUTPUT=1
 
 # Setup Nebula ROS
-ENV NEBULA /opt/ros_ws/src/nebula
+ENV NEBULA=/opt/ros_ws/src/nebula
 RUN git clone https://github.com/ipab-rad/nebula.git $NEBULA \
-    && apt-get update \
     && vcs import $NEBULA/ < $NEBULA/build_depends.repos \
+    && apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
-    && rosdep install --from-paths $NEBULA --ignore-src -y -r \
-    && . /opt/ros/"$ROS_DISTRO"/setup.sh \
-    && colcon build --packages-ignore nebula_tests nebula_examples nebula_sensor_driver --cmake-args -DCMAKE_BUILD_TYPE=Release \
-    && rm -rf /opt/ros_ws/build $NEBULA \
+       rosdep install --from-paths $NEBULA --ignore-src -y -r \
     && rm -rf /var/lib/apt/lists/*
+RUN . /opt/ros/"$ROS_DISTRO"/setup.sh \
+    && colcon build --packages-ignore nebula_tests nebula_examples nebula_sensor_driver --cmake-args -DCMAKE_BUILD_TYPE=Release \
+    && rm -rf /opt/ros_ws/build $NEBULA
 
 # -----------------------------------------------------------------------
 
 FROM base AS prebuilt
+
+# Copy artifacts/binaries from base
+COPY --from=base $ROS_WS/install $ROS_WS/install
 
 # Import sensor code from repos
 COPY av_velodyne_launch $ROS_WS/src/av_velodyne_launch
@@ -66,6 +69,9 @@ RUN . /opt/ros_ws/install/setup.sh \
 # -----------------------------------------------------------------------
 
 FROM base AS dev
+
+# Copy artifacts/binaries from base
+COPY --from=base $ROS_WS/install $ROS_WS/install
 
 # Install basic dev tools (And clean apt-get cache afterwards)
 RUN apt-get update \
@@ -91,7 +97,7 @@ CMD ["bash"]
 
 # -----------------------------------------------------------------------
 
-FROM base as runtime
+FROM base AS runtime
 
 # Copy artifacts/binaries from prebuilt
 COPY --from=prebuilt $ROS_WS/install $ROS_WS/install
