@@ -2,8 +2,8 @@
 Changelog for package av_velodyne_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.0 (2024-12-04)
+------------------
 * Update pre-commit hadolint ignores and fix issues
 * Switch from velodyne_driver to nebula_ros
   - Multiple reasons. Main one is timestamp / delta_ns not correctly
