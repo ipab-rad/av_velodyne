@@ -2,6 +2,14 @@
 Changelog for package av_velodyne_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update pre-commit hadolint ignores and fix issues
+* Switch from velodyne_driver to nebula_ros
+  - Multiple reasons. Main one is timestamp / delta_ns not correctly
+  produced by og velodyne_driver.
+* Contributors: Alejandro Bordallo
+
 1.3.0 (2024-10-17)
 ------------------
 * Setting timestamp_first_packet to match Ouster
