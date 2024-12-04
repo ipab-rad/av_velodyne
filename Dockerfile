@@ -41,13 +41,16 @@ ENV CYCLONEDDS_URI=file://${ROS_WS}/cyclone_dds.xml
 ENV RCUTILS_COLORIZED_OUTPUT=1
 
 # Setup Nebula ROS
-RUN git clone https://github.com/tier4/nebula.git /opt/ros_ws/src/nebula \
+ENV NEBULA /opt/ros_ws/src/nebula
+RUN git clone https://github.com/ipab-rad/nebula.git $NEBULA \
     && apt-get update \
-    && vcs import /opt/ros_ws/src/nebula/ < /opt/ros_ws/src/nebula/build_depends.repos \
+    && vcs import $NEBULA/ < $NEBULA/build_depends.repos \
     && DEBIAN_FRONTEND=noninteractive \
-    && rosdep install --from-paths /opt/ros_ws/src/nebula --ignore-src -y -r \
+    && rosdep install --from-paths $NEBULA --ignore-src -y -r \
     && . /opt/ros/"$ROS_DISTRO"/setup.sh \
-    && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+    && colcon build --packages-ignore nebula_tests nebula_examples nebula_sensor_driver --cmake-args -DCMAKE_BUILD_TYPE=Release \
+    && rm -rf /opt/ros_ws/build $NEBULA \
+    && rm -rf /var/lib/apt/lists/*
 
 # -----------------------------------------------------------------------
 
@@ -57,7 +60,7 @@ FROM base AS prebuilt
 COPY av_velodyne_launch $ROS_WS/src/av_velodyne_launch
 
 # Source ROS setup for dependencies and build our code
-RUN . /opt/ros/"$ROS_DISTRO"/setup.sh \
+RUN . /opt/ros_ws/install/setup.sh \
     && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # -----------------------------------------------------------------------
@@ -77,7 +80,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Add sourcing local workspace command to bashrc for convenience when running interactively
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc && \
+RUN echo ". /opt/ros_ws/install/setup.bash" >> /root/.bashrc && \
         # Add colcon build alias for convenience
     echo 'alias colcon_build="colcon build --symlink-install --cmake-args \
             -DCMAKE_BUILD_TYPE=Release && \
