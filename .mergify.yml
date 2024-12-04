@@ -21,3 +21,10 @@ pull_request_rules:
     actions:
       merge:
         method: squash
+merge_protections:
+  - name: Require approval
+    description: Require at least one review approval before merging is allowed
+    if:
+      - base = main
+    success_conditions:
+      - "#approved-reviews-by >= 1"
