@@ -24,7 +24,7 @@ pull_request_rules:
 merge_protections:
   - name: Require approval
     description: Require at least one review approval before merging is allowed (If
-      not a pre-commit pr)
+      not a pre-commit PR)
     if:
       - -author = pre-commit-ci[bot]
       - base = main
