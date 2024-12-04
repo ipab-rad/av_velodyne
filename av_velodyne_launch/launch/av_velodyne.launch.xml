@@ -1,17 +1,15 @@
 <launch>
   <node pkg="av_velodyne_launch" exec="curl_engage.py" name="curl_engage" output="both"/>
 
-  <arg name="ros_time" default="false" description="If false use GPS/PPS time synch"/>
-  <let name="gps_time" value="true" unless="$(var ros_time)"/>
-  <let name="gps_time" value="false" if="$(var ros_time)"/>
+  <node pkg="nebula_ros" exec="velodyne_ros_wrapper_node" name="velodyne_ros_wrapper_node_left" output="screen" namespace="left_lidar">
+    <param from="$(find-pkg-share av_velodyne_launch)/config/VLP16-velodyne_driver_left-params.yaml" allow_substs="true"/>
+    <param name="launch_hw" value="true"/>
+    <remap from="velodyne_points" to="/sensor/lidar/left/points"/>
+  </node>
 
-  <include file="$(find-pkg-share av_velodyne_launch)/launch/velodyne-all-nodes-VLP16-composed.launch.xml">
-    <arg name="side" value="left"/>
-    <arg name="gps_time" value="$(var gps_time)"/>
-  </include>
-
-  <include file="$(find-pkg-share av_velodyne_launch)/launch/velodyne-all-nodes-VLP16-composed.launch.xml">
-    <arg name="side" value="right"/>
-    <arg name="gps_time" value="$(var gps_time)"/>
-  </include>
+  <node pkg="nebula_ros" exec="velodyne_ros_wrapper_node" name="velodyne_ros_wrapper_node_right" output="screen" namespace="right_lidar">
+    <param from="$(find-pkg-share av_velodyne_launch)/config/VLP16-velodyne_driver_right-params.yaml" allow_substs="true"/>
+    <param name="launch_hw" value="true"/>
+    <remap from="velodyne_points" to="/sensor/lidar/right/points"/>
+  </node>
 </launch>
