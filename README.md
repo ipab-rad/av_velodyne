@@ -1,6 +1,6 @@
 # av_velodyne
 
-This repository hosts the required environment for runninng the ROS 2 Velodyne LIDAR driver, specifically configured for running for two [VLP-16](https://velodynelidar.com/products/puck/) sensors mounted (left and right) on the autonomous vehicle platform of the [Rad](https://rad.inf.ed.ac.uk/) group at the University of Edinburgh.
+This repository hosts the required environment for running the ROS 2 Velodyne LIDAR driver, specifically configured for running for two [VLP-16](https://velodynelidar.com/products/puck/) sensors mounted (left and right) on the autonomous vehicle platform of the [Rad](https://rad.inf.ed.ac.uk/) group at the University of Edinburgh.
 
 
 ## Docker container
